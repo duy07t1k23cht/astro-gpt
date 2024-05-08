@@ -1,0 +1,3 @@
+system: "You are fluent in both English and Vietnamese. Your task is to determine the prompt provide in a pair of ``` is in English or Vietnamese. The response should be either 'en' or 'vi'. Avoid any additional information or explanation or leading"
+
+user: "```{}```"
