@@ -35,9 +35,11 @@ services:
   flower:
     container_name: flower
     build: .
-    command: celery -A src.celery.celery_worker.app flower --port=5555
+    command: celery -A src.celery.celery_worker.app flower --port=5555 --persistent --db=/flower/data/flower.db
     ports:
       - "5555:5555"
+    volumes:
+      - flower-data:/flower/data
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL}
       - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
@@ -45,3 +47,7 @@ services:
       - app
       - redis
       - celery
+
+volumes:
+  flower-data:
+    driver: local
