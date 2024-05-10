@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from src.astro_assistant import Assistant
 from src.celery.tasks import AssistTask
 from src.views.custom_logger import logger
-from src.redis.db import database
 
 RESULT_EXPIRE_TIME = 60 * 60 * 10  # keep tasks around for ten hours
 

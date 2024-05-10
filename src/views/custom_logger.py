@@ -36,7 +36,9 @@ class CustomFormatter(logging.Formatter):
 
 class CustomLoger:
     def __init__(self, format: str, file_handler: logging.FileHandler = None) -> None:
+        print("Init a logger...")
         self.logger = logging.getLogger(__name__)
+        self.logger.propagate = False
         self.format = format
 
         # Create stdout handler for logging to the console (logs all five levels)
@@ -124,11 +126,5 @@ class CustomLoger:
         except Exception:
             pass
 
-
-# dt_string = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
-# logs_dir = "logs"
-# os.makedirs(logs_dir, exist_ok=True)
-# log_path = os.path.join(logs_dir, "log__" + dt_string + ".log")
-# file_handler = logging.FileHandler(log_path)
 
 logger = CustomLoger(format=f"[{config.get('name', '')}][%(asctime)s][%(levelname).1s] %(message)s", file_handler=None)

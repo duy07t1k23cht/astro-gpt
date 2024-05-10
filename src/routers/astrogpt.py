@@ -1,12 +1,21 @@
+from uuid import uuid4
+
 from fastapi import APIRouter
+from pydantic import BaseModel
 
 from src.celery.celery_worker import assist
 from src.redis.db import database
 from src.utils.app_utils import export_status
 from src.const import status
-from uuid import uuid4
+from src.views.custom_logger import logger
 
 router = APIRouter()
+
+
+class AskResponse(BaseModel):
+    request_id: str
+    user: str
+    assistant: str
 
 
 @router.get("/")
@@ -21,10 +30,14 @@ async def get_users():
 
 @router.get("/ask")
 async def ask(query: str):
-    request_id = str(uuid4())
+    try:
+        request_id = str(uuid4())
 
-    response = assist.apply_async(args=(query,), task_id=request_id, serializer="json")
+        response = assist.apply_async(args=(query,), task_id=request_id, serializer="json")
 
-    database.set(request_id, export_status(id=request_id, status=status.IN_PROGRESS, prompt=query, response=None))
+        database.set(request_id, export_status(id=request_id, status=status.IN_PROGRESS, prompt=query, response=None))
 
-    return response.get()
+        return AskResponse(request_id=request_id, user=query, assistant=response.get().strip())
+    except Exception as e:
+        logger.e(f"An error occurs: {e}")
+        return {"error": "An unexpected error occurred"}
