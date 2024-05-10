@@ -1,1 +1,9 @@
 name: astro-gpt
+
+astro_gpt:
+    en_translate_prompt_file: "prompts/translate-en.yaml"
+    vi_translate_prompt_file: "prompts/translate-vi.yaml"
+    ask_prompt_file: "prompts/ask.yaml"
+    question_eval_prompt_file: "prompts/eval.yaml"
+    language_detector_prompt_file: "prompts/language_detector.yaml"
+    base_model: "claude-3-sonnet-20240229"

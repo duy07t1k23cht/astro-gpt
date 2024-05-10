@@ -4,6 +4,7 @@ from src.engine.search.search_engine import SearchEngine
 from src.engine.question_eval.question_eval import Evaluator
 from src.engine.translate.language_detector import LanguageDetector
 from src.base import BaseAgent
+from src.views.custom_logger import logger
 
 
 class Assistant:
@@ -16,6 +17,7 @@ class Assistant:
         language_detector_prompt_file: str,
         base_model: str,
     ) -> None:
+        logger.i(f"Initializing agents:\n\ten_translate_prompt_file: '{en_translate_prompt_file}'")
         self.en_translator = Translator(prompt_file=en_translate_prompt_file, model=base_model)
         self.vi_translator = Translator(prompt_file=vi_translate_prompt_file, model="gpt-3.5-turbo-0125")
         self.asker = Asker(prompt_file=ask_prompt_file, model=base_model)
