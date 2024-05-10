@@ -24,8 +24,11 @@ async def root():
 
 
 @router.get("/hello/")
-async def get_users():
-    return "Hello"
+async def introduction():
+    return {
+        "message": "Astro GPT is an innovative project designed to provide a seamless experience for natural language processing tasks for astronomy topic. Its main features include robust API integration and efficient task monitoring."
+    }
+    return
 
 
 @router.get("/ask")
