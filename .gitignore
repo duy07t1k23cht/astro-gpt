@@ -140,3 +140,4 @@ docs/_build/
 Thumbs.db
 
 res/
+*.db

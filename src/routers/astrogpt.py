@@ -38,9 +38,12 @@ async def ask(query: str):
 
         response = assist.apply_async(args=(query,), task_id=request_id, serializer="json")
 
-        database.set(request_id, export_status(id=request_id, status=status.IN_PROGRESS, prompt=query, response=None))
+        if database is None:
+            logger.w("Database None")
+        else:
+            database.set(request_id, export_status(id=request_id, status=status.IN_PROGRESS, prompt=query, response=None))
 
-        return AskResponse(request_id=request_id, user=query, assistant=response.get().strip())
+        return AskResponse(request_id=request_id, user=query, assistant=response.get())
     except Exception as e:
         logger.e(f"An error occurs: {e}")
         return {"error": "An unexpected error occurred"}

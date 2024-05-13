@@ -26,9 +26,15 @@ class AssistTask(Task):
         return self._assistant
 
     def on_success(self, retval, task_id, args, kwargs):
+        if database is None:
+            logger.w("Database None")
+            return
         query = args[0]
         database.set(task_id, export_status(id=task_id, status=status.SUCCESS, prompt=query, response=retval))
 
     def on_failure(self, exc, task_id, args, kwargs, einfo):
+        if database is None:
+            logger.w("Database None")
+            return
         query = args[0]
         database.set(task_id, export_status(id=task_id, status=status.FAILED, prompt=query, response=exc))

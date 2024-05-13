@@ -22,12 +22,9 @@ services:
   celery:
     container_name: celery
     build: .
-    command: celery -A src.celery.celery_worker.app worker -B --loglevel=info
+    command: celery -A src.celery.celery_worker.app worker -B --loglevel=info --concurrency=4
     volumes:
       - .:/app
-    environment:
-      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
-      - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
     depends_on:
       - app
       - redis
@@ -40,9 +37,6 @@ services:
       - "5555:5555"
     volumes:
       - flower-data:/flower/data
-    environment:
-      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
-      - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
     depends_on:
       - app
       - redis

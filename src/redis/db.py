@@ -12,4 +12,4 @@ redis_url = os.environ.get("REDIS_URL")
 if redis_url is not None:
     database = redis.from_url(redis_url)
 else:
-    logger.e("Ngu")
+    logger.w("Cannot init redis database")
