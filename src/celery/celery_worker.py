@@ -1,9 +1,9 @@
-import os
 import json
+import os
 
-from celery import Celery, Task
 from dotenv import load_dotenv
 
+from celery import Celery, Task
 from src.astro_assistant import Assistant
 from src.celery.tasks import AssistTask
 from src.views.custom_logger import logger
@@ -13,12 +13,9 @@ RESULT_EXPIRE_TIME = 60 * 60 * 10  # keep tasks around for ten hours
 load_dotenv()
 app = Celery(
     "astro",
-    backend="s3",
-    s3_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-    s3_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
-    s3_bucket="duynm98-demo-s3",
-    s3_base_path="celery-backend-result/astrogpt-",
-    s3_region="ap-southeast-1",
+    broker_url=os.environ.get("CELERY_BROKER_URL"),
+    backend_url=os.environ.get("CELERY_RESULT_BACKEND"),
+    # result_expires=RESULT_EXPIRE_TIME,
 )
 
 
