@@ -65,16 +65,16 @@ curl -X 'GET' \
 }
 ```
 
+-   **Response Codes:**
+    -   `200 OK`: Successful request.
+    -   `400 Bad Request`: Invalid request parameters.
+    -   `500 Internal Server Error`: Server error occurred.
+
 ## Demo
 
 For a very simple demonstration, visit `http://localhost:8501/`
 
 ![](./demo/streamlit.png)
-
--   **Response Codes:**
-    -   `200 OK`: Successful request.
-    -   `400 Bad Request`: Invalid request parameters.
-    -   `500 Internal Server Error`: Server error occurred.
 
 ## Screenshots
 
