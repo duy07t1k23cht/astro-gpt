@@ -1,9 +1,9 @@
-from src.engine.translate.translate import Translator
-from src.engine.ask.ask import Asker
-from src.engine.search.search_engine import SearchEngine
-from src.engine.question_eval.question_eval import Evaluator
-from src.engine.translate.language_detector import LanguageDetector
 from src.base import BaseAgent
+from src.engine.ask.ask import Asker
+from src.engine.question_eval.question_eval import Evaluator
+from src.engine.search import serper
+from src.engine.translate.language_detector import LanguageDetector
+from src.engine.translate.translate import Translator
 from src.views.custom_logger import logger
 
 
@@ -32,7 +32,6 @@ class Assistant:
         self.en_translator = Translator(prompt_file=en_translate_prompt_file, model=base_model)
         self.vi_translator = Translator(prompt_file=vi_translate_prompt_file, model="gpt-3.5-turbo-0125")
         self.asker = Asker(prompt_file=ask_prompt_file, model=base_model)
-        self.search_engine = SearchEngine()
         self.evaluator = Evaluator(prompt_file=question_eval_prompt_file, model=base_model)
         self.language_detector = LanguageDetector(prompt_file=language_detector_prompt_file, model="gpt-3.5-turbo-0125")
 
@@ -62,13 +61,13 @@ class Assistant:
 
         # Provide assistance if the question is related to astronomy; refuse to assist otherwise.
         if "yes" in eval_result.lower() and len(eval_result.strip()) < 5:
-            search_results = self.search_engine.search(english_question)
-            search_results = []
+            search_results = serper.simplify_search(query=english_question)
+            
             english_response = self.asker.ask(
                 english_question,
                 search_results,
                 current_time=True,
-                assistant_prompt="Based on the provided information and my knowledge, here is my detailed answer:",
+                assistant_prompt="Based on the provided information and my knowledge, here is my answer:",
             )
         else:
             english_response = eval_result

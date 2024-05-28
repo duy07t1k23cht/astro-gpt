@@ -5,16 +5,17 @@ sys.path.append(".")
 
 import anthropic
 from openai import OpenAI
-from src.views.custom_logger import logger
+
 from src.utils.file_utils import load_yaml
+from src.views.custom_logger import logger
 
 CLAUDE_MODELS = ["claude-2.1", "claude-3-opus-20240229", "claude-3-haiku-20240307", "claude-3-sonnet-20240229"]
 
-OPENAI_MODELS = ["gpt-3.5-turbo-0125"]
+OPENAI_MODELS = ["gpt-3.5-turbo-0125", "gpt-4o", "gpt-4-turbo"]
 
 
 class BaseAgent:
-    def __init__(self, prompt_file: str = None, model: str = "gpt-3.5-turbo-0125") -> None:
+    def __init__(self, prompt_file: str = None, model: str = "gpt-4o") -> None:
         self.model = model
         if model in CLAUDE_MODELS:
             self.client = anthropic.Anthropic(
@@ -125,7 +126,7 @@ class BaseAgent:
 
 
 def main():
-    client = BaseAgent("prompts/ask.yaml", model="claude-3-opus-20240229")
+    client = BaseAgent("prompts/default.yaml", model="gpt-4-turbo")
     client.execute("Which planet has the most moons?")
 
 
