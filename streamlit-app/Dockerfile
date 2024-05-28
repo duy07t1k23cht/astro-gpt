@@ -11,6 +11,6 @@ RUN pip3 install -r requirements.txt
 
 COPY . /app
 
-EXPOSE 8888
+EXPOSE 8501
 
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8888"]
+CMD ["streamlit", "run", "app.py"]

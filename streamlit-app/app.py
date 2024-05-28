@@ -4,7 +4,7 @@ import requests
 import streamlit as st
 
 # Define the API endpoint
-API_ENDPOINT = "http://0.0.0.0:8888/ask"  # Replace with your actual API endpoint
+API_ENDPOINT = "http://app:8888/ask"  # Replace with your actual API endpoint
 
 
 # Function to call the API
@@ -32,6 +32,7 @@ def inject_typing_animation():
         justify-content: left;
         align-items: left;
         height: 100px;
+        padding-top: 24px;
     }
     .dot {
         width: 10px;
@@ -68,10 +69,10 @@ def inject_typing_animation():
 
 # Streamlit app
 def main():
-    st.title("Prompt Input and API Response App")
+    st.title("Astro GPT")
 
     # Create a form for user input
-    user_input = st.text_area("Enter your prompt here:")
+    user_input = st.text_area("Ask me an astronomy question:", placeholder="How old is the Sun?")
 
     # Handle form submission
     if user_input:

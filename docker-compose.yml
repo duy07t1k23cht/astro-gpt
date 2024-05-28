@@ -9,6 +9,8 @@ services:
     ports:
       - "8888:8888"
     restart: always
+    networks:
+      - app-network
 
   redis:
     image: "redis"
@@ -18,6 +20,8 @@ services:
       - "6379:6379"
     depends_on:
       - app
+    networks:
+      - app-network
 
   celery:
     container_name: celery
@@ -28,6 +32,8 @@ services:
     depends_on:
       - app
       - redis
+    networks:
+      - app-network
 
   flower:
     container_name: flower
@@ -41,7 +47,24 @@ services:
       - app
       - redis
       - celery
+    networks:
+      - app-network
+
+  streamlit:
+    container_name: streamlit-app
+    build:
+      context: ./streamlit-app
+    ports:
+      - "8501:8501"
+    depends_on:
+      - app
+    networks:
+      - app-network
 
 volumes:
   flower-data:
     driver: local
+
+networks:
+  app-network:
+    driver: bridge
